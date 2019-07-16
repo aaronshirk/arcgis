@@ -6,4 +6,4 @@ This project serves as a central repository for ArcGIS projects currently being 
 
 | Project | Description |
 |:---------:|:-------------|
-| [Coral Reef Watch](./CoralReefWatch/README.md] | Mapping NOAA Coral Reef Watch Data and updating with python scripts |
+| [Coral Reef Watch](./CoralReefWatch/README.md) | Mapping NOAA Coral Reef Watch Data and updating with python scripts |
