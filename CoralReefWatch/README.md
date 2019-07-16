@@ -37,6 +37,9 @@ Since the spacial data updates frequently, it's necessary to update the data fro
    - the script will download the latest data, update the feature layers, and then copy the feature layers into the Live.gdb default geospatial database
   
 4. Restart ArcGIS Pro and reload the project in order to refresh the map view with new data
-5. Run the symbology update python script if the symbology is messed up
+5. Run the symbology update Python script if the symbology is messed up
+   ```
+   python update_symbology.py
+   ```
    * the default symbology uses a **SimpleRenderer** which does not add much to the visualization.  The script updates to the GraduatedSymbolRenderer based on **alert_level** field
 	
