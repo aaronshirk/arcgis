@@ -1,0 +1,155 @@
+﻿print('hello world')
+import sys
+print(sys)
+sys.version
+help(sys)
+clear
+import arcpy
+help(arcpy)
+import arcgis
+help
+help()
+help clear
+help(arcgis)
+import os, tempfile
+from urllib import request
+url = 'https://coralreefwatch.noaa.gov/vs/vs_polygons.json'
+print(url)
+temp_dir = tempfile.mkdtemp()
+print(temp_dir)
+filename = os.path.join(temp_dir, 'latest_data.json')
+print(filename)
+response = request.urlretrieve(url, filename)
+print(response)
+import json
+json_file = open(filename)
+data_raw = json.load(json_file)
+print(data_raw)
+print(data_raw['type'])
+arcpy.management.CreateFileGDB(r'C:\Temp', 'Live.gdb')
+arcpy.management.CreateFileGDB('C:\Temp', 'Live.gdb')
+arcpy.env.workspace = os.path.join(r'C:\Temp', 'Live.gdb')
+data_stations = dict(type=data_raw['type'], features=[])
+print(data_stations)
+data_areas = dict(type=data_raw['type'], features=[])
+print(data_areas)
+for feat in data_raw['features']:     if feat['geometry']['type'] == 'Point':         data_stations['features'].append(feat)     else: # elif feat['geometry']['type'] in ['MultiPolygon', 'Polygon']:                 data_areas['features'].append(feat)
+print(data_stations)
+len(data_stations(['features']))
+len(data_stations.features)
+len(data_stations)
+len(data_stations['features'])
+data_areas['features'][9]
+data_areas['features'][9]['properties']['name']
+data_areas['features'][9]['geometry']['coordinates']
+stations_json_path = os.path.join(temp_dir, 'points.json')
+areas_json_path = os.path.join(temp_dir, 'polygons.json')
+print(stations_json_path)
+print(areas_json_path)
+with open(stations_json_path, 'w') as point_json_file:     json.dump(data_stations, point_json_file, indent=)
+with open(stations_json_path, 'w') as point_json_file:     json.dump(data_stations, point_json_file, indent=4)
+print(stations_json_path)
+with open(areas_json_path, 'w') as poly_json_file:     json.dump(data_areas, poly_json_file, indent=4)
+print(stations_json_path)
+arcpy.conversion.JSONToFeatures(stations_json_path, 'alert_stations')
+arcpy.conversion.JSONToFeatures(areas_json_path, 'alert_areas')
+arcpy.management.AddField('alert_stations', 'alert_level', 'SHORT', field_alias='Alert Level')
+arcpy.management.AddField('alert_areas', 'alert_level', 'SHORT', field_alias='Alert Level')
+arcpy.management.CalculateField('alert_stations', 'alert_level', "int(!alert!)")
+arcpy.management.CalculateField('alert_areas', 'alert_level', "int(!alert!)")
+p = arcpy.mp.ArcGISProject("CURRENT")
+print(p)
+p.listMaps()
+p.listMaps('Map')
+p.listMaps('Map')[0]
+m = p.listMaps('Map')[0]
+points_lyr = m.listLayers('alert_*')[0]
+points_sym = points_lyr.symbology
+print(points_lyr)
+print(points_)
+print(points_sym.renderer)
+print(points_sym.renderer.type)
+print(points_sym.renderer.classificationField)
+if points_sym.renderer.type != 'SimpleRenderer':     points_sym.updateRenderer('SimpleRenderer')
+points_sym.updateRenderer('GraduatedSymbolsRenderer')
+print(points_sym.renderer.type)
+points_sym.renderer.classificationField
+points_sym.renderer.classificationField = 'alert_level'
+points_sym.renderer.breakCount = 4
+points_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4']
+points_upperBounds = [1, 2, 3, 4]
+points_labels
+points_upperBounds
+points_sizes = [6, 16.50, 27, 37.50]
+layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]
+layers_colors
+points_sym.renderer.classBreaks[i]
+points_sym.renderer.classBreaks
+for i in range(4):     item = points_sym.renderer.classBreaks[i]     item.symbol.applySymbolFromGallery('Circle', 1)     item.label = points_labels[i]     item.upperBound = points_upperBounds[i]     item.symbol.size = points_sizes[i]     item.symbol.color = layers_colors[i]
+range(4)
+points_lyr.symbology = points_sym
+m.listLayers('alert*')
+polygons_lyr = m.listLayers('alert_*')[1] polygons_sym = polygons_lyr.symbology
+polygons_lyr
+polygons_lyr.name
+if polygons_sym.renderer.type != 'SimpleRenderer':     polygons_sym.updateRenderer('SimpleRenderer')  polygons_sym.updateRenderer('GraduatedColorsRenderer') polygons_sym.renderer.classificationField = 'alert_level' polygons_sym.renderer.breakCount = 4  polygons_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4'] polygons_upperBounds = [1, 2, 3, 4] layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]
+polygons_labels
+for i in range(4):     item = polygons_sym.renderer.classBreaks[i]     item.label = polygons_labels[i]     item.upperBound = polygons_upperBounds[i]     item.symbol.color = layers_colors[i]  # Update polygons_lyr.symbology = polygons_sym
+cd
+from arcgis.gis import GIS
+gis = GIS(url='https://mindfulaquatic.maps.arcgis.com', username='shirka2019', password='SmhC1!8wv3A9')
+print(gis)
+item = gis.content.get(259e15b1bea644f196ebcb04ba172354)
+item = gis.content.get('259e15b1bea644f196ebcb04ba172354')
+print(item)
+item.related_items("Service2Data")
+item.related_items
+item.related_items()
+val = item.related_items("Service2Data")
+print(val)
+val[0]
+help(item)
+print(item)
+item.homepage
+item.title
+manager = arcgis.features.FeatureLayerCollection.fromitem(item)
+import arcgis
+manager = arcgis.features.FeatureLayerCollection.fromitem(item)
+manager = arcgis.features.FeatureLayerCollection.fromitem(259e15b1bea644f196ebcb04ba172354)
+manager = arcgis.features.FeatureLayerCollection.fromitem('259e15b1bea644f196ebcb04ba172354')
+item.type
+print('hello world')
+arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')
+import sys, arcpy, os, tempfile, json, logging, shutil
+arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')
+import sys, arcpy, os, tempfile, json, logging, shutil
+arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')
+# Symbology p = arcpy.mp.ArcGISProject("CURRENT") m = p.listMaps('Map')[0]  # Points points_lyr = m.listLayers('alert_*')[0] points_sym = points_lyr.symbology
+print(points_lyr)
+print(points_sym)
+# Always change to the GraduatedSymbolsRenderer from the SimpleRenderer if points_sym.renderer.type != 'SimpleRenderer':     points_sym.updateRenderer('SimpleRenderer') points_sym.updateRenderer('GraduatedSymbolsRenderer') points_sym.renderer.classificationField = 'alert_level' points_sym.renderer.breakCount = 4  points_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4'] points_upperBounds = [1, 2, 3, 4] points_sizes = [6, 16.50, 27, 37.50]  layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]
+for i in range(4):     item = points_sym.renderer.classBreaks[i]     item.symbol.applySymbolFromGallery('Circle', 1)     item.label = points_labels[i]     item.upperBound = points_upperBounds[i]     item.symbol.size = points_sizes[i]     item.symbol.color = layers_colors[i]
+points_lyr.symbology = points_sym
+polygons_lyr = m.listLayers('alert_*')[1] polygons_sym = polygons_lyr.symbology
+if polygons_sym.renderer.type != 'SimpleRenderer':     polygons_sym.updateRenderer('SimpleRenderer')  polygons_sym.updateRenderer('GraduatedColorsRenderer') polygons_sym.renderer.classificationField = 'alert_level' polygons_sym.renderer.breakCount = 4  polygons_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4'] polygons_upperBounds = [1, 2, 3, 4] layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]
+for i in range(4):     item = polygons_sym.renderer.classBreaks[i]     item.label = polygons_labels[i]     item.upperBound = polygons_upperBounds[i]     item.symbol.color = layers_colors[i]  # Update polygons_lyr.symbology = polygons_sym
+import sys, arcpy, os, tempfile, json, logging, shutil
+import sys, arcpy, os, tempfile, json, logging, shutil   # Set the default gdb to Live.gdb print("Setting Live.gdb as default...") arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')  # Staring symbology update print("Staring symbology update...") p = arcpy.mp.ArcGISProject("CURRENT") m = p.listMaps('Map')[0]  # Point symbology start print("Point symbology start...") points_lyr = m.listLayers('alert_*')[0] points_sym = points_lyr.symbology  # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer if points_sym.renderer.type != 'SimpleRenderer':     points_sym.updateRenderer('SimpleRenderer') points_sym.updateRenderer('GraduatedSymbolsRenderer') points_sym.renderer.classificationField = 'alert_level' points_sym.renderer.breakCount = 4  points_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4'] points_upperBounds = [1, 2, 3, 4] points_sizes = [6, 16.50, 27, 37.50]  layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]   for i in range(4):     item = points_sym.renderer.classBreaks[i]     item.symbol.applySymbolFromGallery('Circle', 1)     item.label = points_labels[i]     item.upperBound = points_upperBounds[i]     item.symbol.size = points_sizes[i]     item.symbol.color = layers_colors[i]  # Update point symbology points_lyr.symbology = points_sym print("Point symbology complete...")   # Polygon symbology start print("Polygon symbology start...") polygons_lyr = m.listLayers('alert_*')[1] polygons_sym = polygons_lyr.symbology   # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer if polygons_sym.renderer.type != 'SimpleRenderer':     polygons_sym.updateRenderer('SimpleRenderer')  polygons_sym.updateRenderer('GraduatedColorsRenderer') polygons_sym.renderer.classificationField = 'alert_level' polygons_sym.renderer.breakCount = 4  polygons_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4'] polygons_upperBounds = [1, 2, 3, 4] layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                    {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]  for i in range(4):     item = polygons_sym.renderer.classBreaks[i]     item.label = polygons_labels[i]     item.upperBound = polygons_upperBounds[i]     item.symbol.color = layers_colors[i]  # Update polygon symbology polygons_lyr.symbology = polygons_sym print("Polygon symbology complete...")
+# Polygon symbology start print("Polygon symbology start...") polygons_lyr = m.listLayers('alert_*')[1] polygons_sym = polygons_lyr.symbology
+# Staring symbology update print("Staring symbology update...") p = arcpy.mp.ArcGISProject("CURRENT") m = p.listMaps('Map')[0]
+# Polygon symbology start print("Polygon symbology start...") polygons_lyr = m.listLayers('alert_*')[1] polygons_sym = polygons_lyr.symbology
+print(polygons_sym)
+print(polygons_lyr)
+m.listLayers('alert*')
+m.listLayers('alert*')[0]
+print(m.listLayers('alert*')[0])
+m.listLayers('alert*')[0].nanme
+m.listLayers('alert*')[0].name
+m.listLayers('alert*')[1].name
+for i in range(10):     print('hello world + i')
+for i in range(10):     print('hello world + {i}')
+for i in range(10):     print("hello world " + i)
+for i in range(10):     print("hello world {i}".format(i))
+for i in range(10):     i
+import sys, arcpy, os, tempfile, json, logging, shutil   def updatePointSymbology(layer, sym):     # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer     if sym.renderer.type != 'SimpleRenderer':         sym.updateRenderer('SimpleRenderer')     sym.updateRenderer('GraduatedSymbolsRenderer')     sym.renderer.classificationField = 'alert_level'     sym.renderer.breakCount = 4      points_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4']     points_upperBounds = [1, 2, 3, 4]     points_sizes = [6, 16.50, 27, 37.50]      layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                        {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]       for i in range(4):         item = sym.renderer.classBreaks[i]         item.symbol.applySymbolFromGallery('Circle', 1)         item.label = points_labels[i]         item.upperBound = points_upperBounds[i]         item.symbol.size = points_sizes[i]         item.symbol.color = layers_colors[i]      # Update point symbology     layer.symbology = sym     print("Point symbology complete...")      def updatePolySymbology(layer, sym):     # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer     if sym.renderer.type != 'SimpleRenderer':         sym.updateRenderer('SimpleRenderer')      sym.updateRenderer('GraduatedColorsRenderer')     sym.renderer.classificationField = 'alert_level'     sym.renderer.breakCount = 4      polygons_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4']     polygons_upperBounds = [1, 2, 3, 4]     layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                        {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]      for i in range(4):         item = sym.renderer.classBreaks[i]         item.label = polygons_labels[i]         item.upperBound = polygons_upperBounds[i]         item.symbol.color = layers_colors[i]      # Update polygon symbology     layer.symbology = sym     print("Polygon symbology complete...")       # Set the default gdb to Live.gdb print("Setting Live.gdb as default...") arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')  # Staring symbology update print("Staring symbology update...") p = arcpy.mp.ArcGISProject("CURRENT") m = p.listMaps('Map')[0]    for k in range(2):         lyr = m.listLayers('alert_*')[k]     sym = lyr.symbology      if lyr.name = 'alert_stations':         print("Processing alert_station point symbology...")         updatePointSymbology(lyr, sym)     else:         print("Processing alert_area polygon symbology...")         updatePolySymbology(lyr, sym)
+import sys, arcpy, os, tempfile, json, logging, shutil   def updatePointSymbology(layer, sym):     # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer     if sym.renderer.type != 'SimpleRenderer':         sym.updateRenderer('SimpleRenderer')     sym.updateRenderer('GraduatedSymbolsRenderer')     sym.renderer.classificationField = 'alert_level'     sym.renderer.breakCount = 4      points_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4']     points_upperBounds = [1, 2, 3, 4]     points_sizes = [6, 16.50, 27, 37.50]      layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                        {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]       for i in range(4):         item = sym.renderer.classBreaks[i]         item.symbol.applySymbolFromGallery('Circle', 1)         item.label = points_labels[i]         item.upperBound = points_upperBounds[i]         item.symbol.size = points_sizes[i]         item.symbol.color = layers_colors[i]      # Update point symbology     layer.symbology = sym     print("Point symbology complete...")      def updatePolySymbology(layer, sym):     # Always change to the GraduatedSymbolsRenderer from the SimpleRenderer     if sym.renderer.type != 'SimpleRenderer':         sym.updateRenderer('SimpleRenderer')      sym.updateRenderer('GraduatedColorsRenderer')     sym.renderer.classificationField = 'alert_level'     sym.renderer.breakCount = 4      polygons_labels = ['0 - 1', '> 1 - 2', '> 2 - 3', '> 3 - 4']     polygons_upperBounds = [1, 2, 3, 4]     layers_colors = [{'RGB': [5, 113, 176, 40]}, {'RGB': [146, 197, 222, 50]},                        {'RGB': [244, 165, 130, 50]}, {'RGB': [202, 0, 32, 30]}]      for i in range(4):         item = sym.renderer.classBreaks[i]         item.label = polygons_labels[i]         item.upperBound = polygons_upperBounds[i]         item.symbol.color = layers_colors[i]      # Update polygon symbology     layer.symbology = sym     print("Polygon symbology complete...")       # Set the default gdb to Live.gdb print("Setting Live.gdb as default...") arcpy.env.workspace = os.path.join(r'C:\Users\Aaron\Documents\ArcGIS\Projects\CoralReefWatch', 'Live.gdb')  # Staring symbology update print("Staring symbology update...") p = arcpy.mp.ArcGISProject("CURRENT") m = p.listMaps('Map')[0]    for k in range(2):         lyr = m.listLayers('alert_*')[k]     sym = lyr.symbology      if lyr.name == 'alert_stations':         print("Processing alert_station point symbology...")         updatePointSymbology(lyr, sym)     else:         print("Processing alert_area polygon symbology...")         updatePolySymbology(lyr, sym)
