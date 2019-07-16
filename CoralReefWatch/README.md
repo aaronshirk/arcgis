@@ -1,5 +1,8 @@
 ## Overview
 
+![Coral Reef Watch Sample Image](./images/main-image.png)
+
+
 ArcGIS mapping project using [NOAA Coral Reef Watch spatial data](https://coralreefwatch.noaa.gov/vs/vs_polygons.json) to visualize risk areas for coral bleaching around the world.   
 
 The spatial data is a raw json file that is downloaded from their [project web site](https://coralreefwatch.noaa.gov/satellite/index.php) and contains point and polygon spacial information for **virtual stations** and their corresponding monitoring areas.  Each of these virtual stations and areas are tagged with a risk level from 1 to 4 (1 being less risk, and 4 being greatest risk).  
