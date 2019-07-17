@@ -8,4 +8,4 @@ This project serves as a central repository for ArcGIS projects currently being 
 |:---------:|:-------------|
 | [Coral Reef Watch](./CoralReefWatch/README.md) | Mapping NOAA Coral Reef Watch Data and updating with python scripts |
 | [Baltimore Storm Surge](./StormSurge/README.md) | Map to predict possible impact of 3m and 9m storm surge on the baltimore inner harbor area |
-| [Maryland Chesapeake O2 Levels](./MarylandO2/README.md)| Map of Maryland goverment data showing O2 levels in the harbor and which areas may present a problem |
+| [MD Dissolved O2](./MarylandO2/README.md)| Map of Maryland government data showing dissolved oxygen levels in the harbor overlayed with current Oyster restoration sites|
