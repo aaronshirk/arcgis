@@ -3,7 +3,7 @@
 ![Baltimore Storm Surge Potential](./images/main-image.png)
 
 
-ArcGIS mapping project showing potential storm surge for the downtown Baltimore, Inner Harbor area. The map tries to show what the potential flood impact if a hurricane hit the area resulting in both a 3m surge.  In contrast it also shows the impact for a 9m storm surge.  
+ArcGIS mapping project showing potential storm surge for the downtown Baltimore, Inner Harbor area. The map tries to show the potential flood impact if a hurricane hit the area resulting in a 3m storm surge.  In contrast it also shows the impact for a 9m storm surge.  
 
 The WebMap has been published to ArcGIS online (link below) but the legend is not showing correctly. 
 - Orange area --> flood area for a 3m surge 
