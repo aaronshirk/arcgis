@@ -13,7 +13,7 @@ This raw data is updated frequently, so the map will become outdated fairly quic
 ## ArcGIS online 
 
 A WebMap of this project is currently hosted on ArcGIS online.
- - [Storm Surge Web Map](https://arcg.is/1WCf5W) 
+ - [Coral Reef Watch Web Map](https://arcg.is/1WCf5W) 
 
 
 ## Project Components
